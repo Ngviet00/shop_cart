@@ -1,0 +1,12 @@
+.list__product {
+   display: flex;
+   padding: 20px;
+
+   .sidebar {
+      flex: 0.25;
+      padding-right: 15px;
+   }
+   .content {
+      flex: 0.75;
+   }
+}
