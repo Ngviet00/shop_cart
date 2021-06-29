@@ -8,5 +8,13 @@
    }
    .content {
       flex: 0.75;
+
+      .pagination {
+         .MuiPagination-ul {
+            display: flex;
+            justify-content: center;
+            margin-top: 1em;
+         }
+      }
    }
 }

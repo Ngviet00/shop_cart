@@ -1,17 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 
-FilterByCategory.propTypes = {
-   onChange: PropTypes.func
-};
-
-FilterByCategory.defaultProps = {
-   onChange: null
-};
-
 const useStyles = makeStyles({
-   listCategories: {
+   listBrands: {
       margin: '1em 0px'
    },
    categoryItem: {
@@ -39,19 +30,21 @@ const useStyles = makeStyles({
    }
 });
 
-function FilterByCategory({ categories, onChange }) {
+
+function FilterByBrand({ brands, onChange }) {
    const classes = useStyles();
 
-   const handleCategoryClick = (item) => {
+   const handleBrandClick = (item) => {
       if (!onChange) return;
       onChange(item.id);
    }
+
    return (
-      <div className='listCategories'>
-         <ul className={classes.listCategory}>
-            <h2>Danh mục</h2>
-            {categories.map(item => (
-               <li className={classes.item} key={item.id} onClick={() => handleCategoryClick(item)}>
+      <div className='listBrands'>
+         <ul className={classes.listBrand}>
+            <h2>Thương hiệu</h2>
+            {brands.map(item => (
+               <li className={classes.item} key={item.id} onClick={() => handleBrandClick(item)}>
                   {item.name}
                </li>
             ))}
@@ -60,4 +53,4 @@ function FilterByCategory({ categories, onChange }) {
    );
 }
 
-export default FilterByCategory;
+export default FilterByBrand;

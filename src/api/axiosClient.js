@@ -1,20 +1,21 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-   baseURL: 'https://60befc95320dac0017be43c4.mockapi.io/api/',
+   baseURL: 'https://api-json-server-1.herokuapp.com/api/',
    headers: {
       'Content-type': 'application/json',
    },
 });
 
-axiosClient.interceptors.request.use(function (config) {
-   return config;
-}, function (error) {
-   return Promise.reject(error);
-});
+axiosClient.interceptors.request.use(
+   function (config) {
+      return config;
+   }, function (error) {
+      return Promise.reject(error);
+   });
 
 axiosClient.interceptors.response.use(function (response) {
-   return response;
+   return response.data;
 }, function (error) {
    return Promise.reject(error);
 });

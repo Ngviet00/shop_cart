@@ -11,6 +11,8 @@ import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
+import { totalQuantityCart } from 'features/Cart/selector';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
    search: {
@@ -52,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 const WrapperHeader = styled.section`
    width: 100%;
-   background-color: #1976D2;
+   background-color: #0C2738;
 
    .container{
       height: 80px;
@@ -109,11 +111,14 @@ const WrapperHeader = styled.section`
 
 function Header() {
    const classes = useStyles();
+
+   const countQuantityCart = useSelector(totalQuantityCart);
+
    return (
       <WrapperHeader>
          <div className='container'>
             <Box component="div" m={1}>
-               <Link className='header__logo' to='/'>
+               <Link className='header__logo' to='/product'>
                   <img src="/logo.png" alt="logo" />
                </Link>
             </Box>
@@ -136,22 +141,22 @@ function Header() {
                <nav>
                   <ul>
                      <li>
-                        <Link to='/home'>home</Link>
+                        <Link to='/home'>trang chủ</Link>
                      </li>
                      <li>
-                        <Link to='/product'>product</Link>
+                        <Link to='/product'>sản phẩm</Link>
                      </li>
                      <li>
-                        <Link to='/blog'>blog</Link>
+                        <Link to='/blog'>tin tức</Link>
                      </li>
                      <li>
-                        <Link to='/contact'>contact</Link>
+                        <Link to='/contact'>liên hệ</Link>
                      </li>
                   </ul>
                </nav>
                <Link to='/cart'>
                   <IconButton color="inherit" className="header__iconRight" >
-                     <Badge badgeContent={9} color="secondary">
+                     <Badge badgeContent={countQuantityCart} color="secondary">
                         <ShoppingCartIcon />
                      </Badge>
                   </IconButton>

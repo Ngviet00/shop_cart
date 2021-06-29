@@ -1,15 +1,15 @@
 import React from 'react'
 import { Switch, Route, useRouteMatch } from 'react-router'
 import ListProduct from './pages/ListProduct';
-import ProductDetail from './pages/ProductDetail/index';
+import ProductDetail from 'features/Product/pages/ProductDetail';
 
 function Product() {
-   const match = useRouteMatch();
+   const { path } = useRouteMatch();
    return (
       <div>
          <Switch>
-            <Route path={match.path} component={ListProduct} exact />
-            <Route path={`${match.path}/:productId`} component={ProductDetail} exact />
+            <Route path={path} component={ListProduct} exact />
+            <Route path={`${path}/:productId`} component={ProductDetail} exact />
          </Switch>
       </div>
    )

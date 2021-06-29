@@ -9,6 +9,8 @@ import SignIn from './pages/SignIn';
 import SignUp from 'pages/SignUp';
 import Product from './features/Product/index.jsx';
 import ForgotPassWord from 'pages/ForgotPassword';
+import ProductDetail from 'features/Product/pages/ProductDetail';
+import Cart from 'features/Cart'
 
 function App() {
    return (
@@ -21,6 +23,18 @@ function App() {
                <Product />
             </Route>
 
+            <Route path="/blog" exact>
+               <Product />
+            </Route>
+
+            <Route path="/contact" exact>
+               <Product />
+            </Route>
+
+            <Route path="/product/:id" exact>
+               <ProductDetail />
+            </Route>
+
             <Route path='/signIn' exact>
                <SignIn />
             </Route>
@@ -31,6 +45,10 @@ function App() {
 
             <Route path='/forgotPassWord' exact>
                <ForgotPassWord />
+            </Route>
+
+            <Route path='/cart' exact>
+               <Cart />
             </Route>
 
             <Route>
