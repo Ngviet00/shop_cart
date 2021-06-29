@@ -1,7 +1,6 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -67,14 +66,13 @@ export default function SignUp() {
 
    return (
       <Container component="main" maxWidth="xs">
-         <CssBaseline />
          <div className={classes.paper}>
             <Avatar className={classes.avatar}>
                <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
                Sign up
-        </Typography>
+            </Typography>
             <form className={classes.form} noValidate onSubmit={handleSubmit(onSubmit)}>
                <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
@@ -143,7 +141,7 @@ export default function SignUp() {
                   className={classes.submit}
                >
                   Sign Up
-          </Button>
+               </Button>
                <Grid container justify="flex-end">
                   <Grid item className={classes.link}>
                      <Link onClick={() => { history.push('/signIn') }} variant="body2">

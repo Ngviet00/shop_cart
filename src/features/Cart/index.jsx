@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,8 +10,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { useHistory } from 'react-router-dom';
 import { formatCurrency } from 'ultils';
-import { removeCart, removeAllCart, addQuantityCart, subQuantityCart } from 'features/Cart/cartSlice';
-import { totalCart } from 'features/Cart/selector'
+import { removeAllCart, addQuantityCart, subQuantityCart, removeCart } from 'features/Cart/cartSlice';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
@@ -135,18 +134,55 @@ const useStyles = makeStyles({
 
 const Cart = () => {
    const classes = useStyles();
-   const history = useHistory();
-   const listCart = useSelector(state => state.cart.cartItem);
-
-   const totalMoney = useSelector(totalCart);
    const dispatch = useDispatch();
+   const history = useHistory();
+   const [cart, setCart] = useState([]);
+
+   useEffect(() => {
+      const localData = localStorage.getItem('cart');
+      setCart(localData && localData.length > 0 ? JSON.parse(localData) : []);
+   }, []);
+
+   useEffect(() => {
+      localStorage.setItem('cart', JSON.stringify(cart))
+   }, [cart]);
 
    const handleOnClick = (item) => {
+      let { id, size } = item;
+      let index = cart.findIndex(x => x.id === id && x.size === size);
+      cart.splice(index, 1);
+      setCart(cart => [...cart]);
       dispatch(removeCart(item));
    }
+   const setSubQuantity = (item) => {
+      let { id, size } = item;
+      let index = cart.findIndex(x => x.id === id && x.size === size);
+      if (index >= 0) {
+         cart[index].quantity -= 1;
+      }
+      setCart(cart => [...cart]);
+      dispatch(subQuantityCart(item));
+   }
+   const setAddQuantity = (item) => {
+      let { id, size } = item;
+      let index = cart.findIndex(x => x.id === id && x.size === size);
+      if (index >= 0) {
+         cart[index].quantity += 1;
+      }
+      setCart(cart => [...cart]);
+      dispatch(addQuantityCart(item));
+   }
    const handleRemoveAllCart = () => {
+      setCart([]);
       dispatch(removeAllCart());
    }
+
+   let totalMoney = () => {
+      return cart.reduce((total, item) => {
+         return total + (item.quantity * item.salePrice)
+      }, 0)
+   }
+
    const handleClickToProduct = (id) => {
       history.push(`product/${id}`)
    }
@@ -155,21 +191,15 @@ const Cart = () => {
    }
 
    const handleBuy = () => {
-      alert("ok");
+      history.push(`checkout`);
    }
    const handleQuantityChange = () => {
    }
 
-   const setSubQuantity = (item) => {
-      dispatch(subQuantityCart(item));
-   }
-   const setAddQuantity = (item) => {
-      dispatch(addQuantityCart(item));
-   }
    return (
       <div className={classes.root}>
          {
-            listCart.length > 0 ? <TableContainer component={Paper} className={classes.tableContainer}>
+            cart.length > 0 ? <TableContainer component={Paper} className={classes.tableContainer}>
                <Table className={classes.table} aria-label="simple table">
                   <TableHead>
                      <TableRow>
@@ -184,13 +214,13 @@ const Cart = () => {
                   </TableHead>
                   <TableBody>
                      {
-                        listCart.map((item, index) => (
+                        cart.map((item, index) => (
                            <TableRow key={index}>
                               <TableCell component="th" scope="row">
                                  <h4 className={classes.nameProduct} onClick={() => handleClickToProduct(item.id)}>{item.name}</h4>
                               </TableCell>
                               <TableCell align="center">
-                                 <img className={classes.image} onClick={() => handleClickToProduct(item.id)} src={item.image} alt="" />
+                                 <img className={classes.image} onClick={() => handleClickToProduct(item.id)} src={item.image[0]} alt="" />
                               </TableCell>
                               <TableCell align="center">
                                  <div className={classes.quantity}>
@@ -223,7 +253,7 @@ const Cart = () => {
                   </div>
 
                   <div className={classes.payment}>
-                     <p>Tổng tiền: {formatCurrency(totalMoney)}</p>
+                     <p>Tổng tiền:{formatCurrency(totalMoney())}</p>
                      <p>
                         <button className={classes.btnBuy} onClick={handleBuy}>
                            Mua hàng

@@ -10,7 +10,8 @@ import SignUp from 'pages/SignUp';
 import Product from './features/Product/index.jsx';
 import ForgotPassWord from 'pages/ForgotPassword';
 import ProductDetail from 'features/Product/pages/ProductDetail';
-import Cart from 'features/Cart'
+import Cart from 'features/Cart';
+import CheckOut from 'pages/CheckOut';
 
 function App() {
    return (
@@ -49,6 +50,10 @@ function App() {
 
             <Route path='/cart' exact>
                <Cart />
+            </Route>
+
+            <Route path='/checkout' exact>
+               <CheckOut />
             </Route>
 
             <Route>

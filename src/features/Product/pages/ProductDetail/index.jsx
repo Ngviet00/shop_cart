@@ -209,21 +209,31 @@ function ProductDetail() {
 
    const [active, setActive] = useState(false);
    const addCart = (item) => {
-      const { id, name, salePrice, image } = item;
-      const newItem = {
-         id: id,
-         name: name,
-         salePrice: salePrice,
-         image: image[0],
-         quantity: quantity,
-         size: size
+      item.quantity = quantity;
+      item.size = size;
+      let product = [];
+      if (localStorage.getItem('cart')) {
+         product = JSON.parse(localStorage.getItem('cart'));
+         const index = product.findIndex(x => x.id === item.id && x.size === item.size);
+         if (index >= 0) {
+            product[index].quantity += item.quantity
+         } else {
+            product.push(item);
+         }
+         localStorage.setItem('cart', JSON.stringify(product));
+      } else {
+         product.push(item);
+         localStorage.setItem('cart', JSON.stringify(product));
       }
-      dispatch(addToCart(newItem));
+      dispatch(addToCart(item));
       setActive(true);
    }
 
    const handleClickCart = () => {
       history.push('/cart');
+   }
+   const handleCheckOut = () => {
+      history.push('/checkout');
    }
 
    const handleChangeImage = (idx) => {
@@ -248,7 +258,7 @@ function ProductDetail() {
                      <Button size="small" variant="outlined" onClick={handleClickCart}>
                         Xem giỏ hàng
                      </Button>
-                     <Button size="small" variant="outlined" color="primary">
+                     <Button size="small" variant="outlined" color="primary" onClick={handleCheckOut}>
                         Thanh Toán
                      </Button>
                   </div>
