@@ -21,6 +21,11 @@ export default function ListCategories() {
          setLoadingSideBar(false);
       };
       fetchCategories();
+      return () => {
+         setLoadingSideBar(false);
+         setCategories([])
+         setBrands([])
+      }
    }, []);
    return { loadingSideBar, categories, brands }
 }
