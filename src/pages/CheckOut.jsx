@@ -102,7 +102,8 @@ function CheckOut() {
          phone: '',
          address: '',
          email: '',
-      })
+      });
+      localStorage.removeItem('cart');
    }
 
    return (
